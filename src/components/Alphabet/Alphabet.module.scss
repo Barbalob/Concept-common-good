@@ -1,0 +1,16 @@
+
+.listLetter{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding:50px 0px;
+    margin:40px 0px ;
+    border-bottom: 1px solid #988C7A;
+    border-top: 1px solid #988C7A;
+
+}
+.letter{
+    min-width: 2.7% !important;
+    color: #9A7E5F !important;
+    font-size: 32px !important; 
+}

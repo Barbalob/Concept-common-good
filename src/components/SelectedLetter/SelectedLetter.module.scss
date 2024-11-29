@@ -1,0 +1,43 @@
+.selectedLetterList{
+    display: flex;
+    .selectedLetter{
+        display: flex;
+        justify-content: start;
+        align-items: flex-start;
+        max-width: 200px;
+        .letter{
+            font-size: 56px;
+            font-weight: 600;
+            line-height: 38px;
+            text-decoration-skip-ink: none;
+            color: #9A7E5F;
+        }
+    }
+    .listWords{
+        display: flex;
+        gap: 2rem;
+        justify-content: start;
+        flex-direction: column;
+        padding: 0;
+        .itemListWords{
+            display: flex;
+            justify-content: start;
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 0;
+            .wordRu{
+                font-size: 32px;
+                font-weight: 400;
+                line-height: 38px;
+                text-align: left;
+                text-decoration-skip-ink: none;   
+            }
+            .wordEn{
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 38px;
+                text-align: left;               
+            }
+        }
+    }
+}

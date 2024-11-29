@@ -1,0 +1,21 @@
+.contauner{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-bottom: 1px solid #988C7A;
+    padding: 30px 0px;
+    .item{
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 38px;
+        color: #000000;
+    }
+}
+
+.containerHeader{
+    padding-bottom: 10px; 
+    .item{
+        font-size: 16px;
+        color: #8C8C8C;
+    }
+}
