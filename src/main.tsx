@@ -1,15 +1,22 @@
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
+import App from './page/Words.tsx'
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { createBrowserRouter, RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider} from 'react-router-dom'
 import Texts from './page/Texts.tsx'
 import NotFound from './page/NotFound.tsx'
 import Authors from './page/Authors.tsx'
+import { Provider } from 'react-redux'
+import store from './store/index.ts'
+import SelectedWord from './page/SelectedWord.tsx'
 
 const router = createBrowserRouter([
   {
     path:'/',
+    element: <Navigate to="/words" replace />
+  },
+  {
+    path:'/words',
     element: <App/>
   },
   {
@@ -20,6 +27,14 @@ const router = createBrowserRouter([
     path:'/authors',
     element: <Authors/>
   },
+  {
+    path:'/words/:id',
+    element: <SelectedWord/>
+  },
+  // {
+  //   path:'*',
+  //   element: <Navigate to="/error" replace />
+  // },
   {
     path:'*',
     element: <NotFound/>
@@ -42,6 +57,18 @@ const theme = createTheme({
     h1: {
       fontSize: "2.5rem",
     },
+    h2: {
+      fontSize: "2.0rem",
+    },
+    h3: {
+      fontSize: "1.5rem",
+    },
+    h4: {
+      fontSize: "1.0rem",
+    },
+    h5: {
+      fontSize: "0.9rem",
+    },
     button:{
       fontSize: "1.5rem"
     }
@@ -59,9 +86,11 @@ const theme = createTheme({
 
 createRoot(document.getElementById('root')!).render(
   <>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   </>
 )

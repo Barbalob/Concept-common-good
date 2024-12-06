@@ -10,8 +10,8 @@ const Authors = () => {
         <>
         <Header></Header>
         <MainContainer>
-            <MainTitle>Ключевые тексты</MainTitle>
-            <MainInput placeholder='Поиск текстов' onClick={()=>{}}></MainInput>
+            <MainTitle>Авторы</MainTitle>
+            <MainInput placeholder='Поиск авторов' onClick={()=>{}}></MainInput>
             <AuthorList></AuthorList>
         </MainContainer>
     </>

@@ -7,7 +7,10 @@
     margin:40px 0px ;
     border-bottom: 1px solid #988C7A;
     border-top: 1px solid #988C7A;
-
+    
+    .selectedLetter{
+        color: red !important;
+    }
 }
 .letter{
     min-width: 2.7% !important;

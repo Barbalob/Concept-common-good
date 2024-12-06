@@ -1,0 +1,20 @@
+.listTexts{
+  .listItem{
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+
+    border-top: 1px solid #988C7A;
+    .title{
+      font-weight: 500;
+    }
+    .author{
+      color: #9A7E5F;
+    }
+  }
+
+}
