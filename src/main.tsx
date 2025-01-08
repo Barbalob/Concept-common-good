@@ -9,6 +9,10 @@ import Authors from './page/Authors.tsx'
 import { Provider } from 'react-redux'
 import store from './store/index.ts'
 import SelectedWord from './page/SelectedWord.tsx'
+import SelectedAuthor from './page/SelectedAuthor.tsx'
+import SelectedTextDescription from './page/SelectedTextDescription.tsx'
+import SelectedTextPart from './page/SelectedTextPart.tsx'
+import About from './page/About.tsx'
 
 const router = createBrowserRouter([
   {
@@ -24,12 +28,28 @@ const router = createBrowserRouter([
     element: <Texts/>
   },
   {
+    path:'/textDescription/:id',
+    element: <SelectedTextDescription/>
+  },
+  {
+    path:'/text/:id',
+    element: <SelectedTextPart/>
+  },
+  {
     path:'/authors',
     element: <Authors/>
   },
   {
+    path:'/authors/:id',
+    element: <SelectedAuthor/>
+  },
+  {
     path:'/words/:id',
     element: <SelectedWord/>
+  },
+  {
+    path:'/about',
+    element: <About/>
   },
   // {
   //   path:'*',

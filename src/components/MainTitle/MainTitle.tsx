@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { FC } from "react";
 
 interface TypesMainTitle {
-    children:string
+    children:string,
 }
 
 const MainTitle:FC<TypesMainTitle> = ({children}) => {

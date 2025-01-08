@@ -7,7 +7,7 @@ interface TypesMainComtainers {
 
 const MainContainer:FC<TypesMainComtainers> = ({children}) => {
     return (
-        <Container sx={{ flexGrow: 1 }}>
+        <Container sx={{ flexGrow: 1, paddingBottom:'30px' }}>
             {children}
         </Container>
     );

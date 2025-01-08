@@ -6,9 +6,9 @@ import React, { useEffect } from "react";
 import { fetchDictionary } from "../../store/dictionarySlice";
 import { ClipLoader } from "react-spinners";
 import { NavLink } from "react-router-dom";
+import LoadingData from "../LoadingData/LoadingData";
 
 const testArray = (list:TypesWords[]):{letter:string,listWords:TypesWords[]}[] => {
-  console.log(list);
   const arrayLetter = list.reduce((accumulator:string[], word)=>{
     if (!accumulator.includes(word.letter)){
       accumulator.push(word.letter)
@@ -58,22 +58,20 @@ const ListWordsSelectedLetter = () => {
 
   return (
     <>
-      {isLoading && <Box  display="flex" justifyContent="center" alignItems="center"><ClipLoader /></Box>}
-      {error && <Box>Error!</Box>}
-      {!isLoading && !error && listWords.length !== 0 &&
+      <LoadingData error={error} isLoading={isLoading} listlength={listWords.length} >
         <>
           {testArray(listWords).map(item => {
             return (
-              <List className={styles.selectedLetterList}>
+              <List key={item.letter} className={styles.selectedLetterList}>
                 <ListItem className={styles.selectedLetter}>
                   <Typography className={styles.letter}>{item.letter.toUpperCase()}</Typography>
                 </ListItem>
                 <List className={styles.listWords}>
                   {item.listWords.map((word: TypesWords) => {
                     return (
-                      <ListItem component={MyNavLink} to={`words/${word.id}`} className={styles.itemListWords}>
-                        <Typography className={styles.wordRu}>{word.ru}</Typography>
-                        <Typography className={styles.wordEn}>{word.en}</Typography>
+                      <ListItem key={word.id} component={MyNavLink} to={`words/${word.id}`} className={styles.itemListWords}>
+                        <Typography className={styles.wordRu}>{word.ru ? word.ru.toLowerCase().replace(word.ru[0], word.ru[0].toUpperCase()) : ''}</Typography>
+                        <Typography className={styles.wordEn}>{word.en.toLowerCase()}</Typography>
                       </ListItem>
                     );
                   })}
@@ -82,12 +80,7 @@ const ListWordsSelectedLetter = () => {
             )
           })}
         </>
-      }
-      {!isLoading && !error && listWords.length == 0 &&
-        <>
-          <Box  display="flex" justifyContent="center" alignItems="center">По данному запросу ничего не найдено</Box>
-        </>
-      }
+      </LoadingData>
     </>
   );
 };

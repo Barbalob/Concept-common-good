@@ -18,6 +18,8 @@ interface TypeState {
   en:string,
   ru:string,
   listTexts : TypesText[]
+  meaningsEN:string[],
+  meaningsRU:string[],
 }
 
 
@@ -26,9 +28,7 @@ export const fetchWords = createAsyncThunk<TypeReturnFetchWord, TypePayloadFetch
     async function ({id}, { rejectWithValue }){
         try{
           const data = await getDictionaryById(id)
-          console.log(data);
           const texts = await getTexts({params: {wordId:id}})
-          console.log(texts);
           return {
             data,
             texts
@@ -45,7 +45,9 @@ const initialState: TypeState = {
   error: null,
   en:'',
   ru:'',
-  listTexts : []
+  listTexts : [],
+  meaningsEN:[],
+  meaningsRU:[]
 }
 
 const wordSlise = createSlice({
@@ -63,6 +65,8 @@ const wordSlise = createSlice({
                 state.isLoading = false
                 state.ru = action.payload.data.ru
                 state.en = action.payload.data.en
+                state.meaningsEN = action.payload.data.meaningsEN
+                state.meaningsRU = action.payload.data.meaningsRU
                 state.listTexts = action.payload.texts
             })
             .addCase(fetchWords.rejected, (state, action)=>{

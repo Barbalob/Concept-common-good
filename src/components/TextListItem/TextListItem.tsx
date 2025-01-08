@@ -12,7 +12,7 @@ interface TypeTextListItem {
 const MyNavLink = React.forwardRef<any, any>((props, ref) => (
     <NavLink
       ref={ref}
-      to={"/"+props.to}
+      to={"/textDescription/"+props.to}
       className={({ isActive }) => `${props.className} ${isActive ? props.activeClassName : ''}`}
     >
       {props.children}

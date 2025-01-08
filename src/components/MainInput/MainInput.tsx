@@ -2,14 +2,14 @@ import { Box, Button, TextField } from '@mui/material';
 import { FC } from 'react';
 
 interface TypesMainIntut {
-    onClick: () => void,
+    onClick?: () => void,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     value: string,
     textButton?: string,
     placeholder?: string,
 }
 
-const MainInput:FC<TypesMainIntut> = ({onChange, onClick, textButton='Найти', placeholder="Поиск", value}) => {
+const MainInput:FC<TypesMainIntut> = ({onChange, onClick=()=>{}, textButton='Найти', placeholder="Поиск", value}) => {
     return (
         <Box sx={{display:'flex',boxShadow:'0px 4px 20px 0px #00000026'}}>
             <TextField 

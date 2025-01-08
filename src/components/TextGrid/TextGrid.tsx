@@ -36,13 +36,13 @@ const TextGrid:FC<TypeTextGrid> = ({textData, isHead=false}) => {
                     <img src={bookSrc}></img>
                 </Grid>
                 <Grid className={styles.item} size={3} sx={{textAlign:'center'}}>
-                    {textData?.textTitle}
+                    {textData?.titleRU}
                 </Grid>
                 <Grid className={styles.item} size={3} sx={{textAlign:'center'}}>
-                    {textData?.author}
+                    {textData?.author?.name}
                 </Grid>
                 <Grid className={styles.item} size={3} sx={{textAlign:'center'}}>
-                    {textData?.year}
+                    {textData?.pubYear}
                 </Grid>
             </Grid>
             }
