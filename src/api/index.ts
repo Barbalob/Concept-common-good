@@ -1,6 +1,6 @@
 import axios from "axios";
 import { TypesReceivedAuthors, TypesReceivedText, TypesReceivedWords } from "../const/types";
-import { AUTORS, AUTORS_ID, TEXTS, TEXTS_ID, WORDS, WORDS_ID } from "../const/constRoutsApi";
+import { AUTORS, AUTORS_ID, TEXTS, TEXTS_ID, WORDS, WORDS_ID,  } from "../const/constRoutsApi";
 import { transformReceivedAuthor, transformReceivedAuthorsList, transformReceivedText, transformReceivedTextList, transformReceivedWord, transformReceivedWordsList } from "../const/helpers";
 
 interface TypeParamsDictionary{

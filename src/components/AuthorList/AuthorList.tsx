@@ -3,7 +3,7 @@ import srvPlaceholder from '../../assets/photo/photo-placeholder.png'
 import styles from './AuthorList.module.scss'
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { fetchAuthors } from '../../store/authorsSlice';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import LoadingData from '../LoadingData/LoadingData';
@@ -21,7 +21,7 @@ const MyNavLink = React.forwardRef<any, any>((props, ref) => (
   ));
 
 
-const AuthorList = () => {
+const AuthorList= () => {
     const { isLoading, error, listAuthor,searchWord } = useAppSelector(state => state.authors)
     const dispatch = useAppDispatch()
     const theme = useTheme();
@@ -41,6 +41,7 @@ const AuthorList = () => {
         return 80;
     };
 
+
     useEffect(()=>{
         dispatch(fetchAuthors({word:searchWord}))
     },[searchWord])
@@ -59,10 +60,10 @@ const AuthorList = () => {
                     >
                         <ImageListItem className={styles.item}>
                             <img
-                                // srcSet={`${author.photoUrl}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                // src={`${author.photoUrl}?w=248&fit=crop&auto=format`}
-                                srcSet={`${srvPlaceholder}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                src={`${srvPlaceholder}?w=248&fit=crop&auto=format`}
+                                srcSet={`http://localhost:3000${author.photoUrl}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                src={`http://localhost:3000${author.photoUrl}?w=248&fit=crop&auto=format`}
+                                // srcSet={`${srvPlaceholder}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                // src={`${srvPlaceholder}?w=248&fit=crop&auto=format`}
                                 alt={author.name}
                                 loading="lazy"
                             />

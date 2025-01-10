@@ -13,6 +13,10 @@ import SelectedAuthor from './page/SelectedAuthor.tsx'
 import SelectedTextDescription from './page/SelectedTextDescription.tsx'
 import SelectedTextPart from './page/SelectedTextPart.tsx'
 import About from './page/About.tsx'
+import Auth from './page/Auth.tsx'
+import MainAdmin from './page/dashboard/mainAdmin.tsx'
+import CreateAuthors from './page/dashboard/createAuthors/createAuthors.tsx'
+import AllAuthors from './page/dashboard/AllAuthors.tsx'
 
 const router = createBrowserRouter([
   {
@@ -50,6 +54,22 @@ const router = createBrowserRouter([
   {
     path:'/about',
     element: <About/>
+  },
+  {
+    path:'/auth',
+    element: <Auth/>
+  },
+  {
+    path:'/admin',
+    element: <MainAdmin />
+  },
+  {
+    path:'/admin/authors',
+    element: <AllAuthors />
+  },
+  {
+    path:'/admin/authors/:id',
+    element: <CreateAuthors />
   },
   // {
   //   path:'*',

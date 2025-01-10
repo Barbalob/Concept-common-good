@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { ClipLoader } from 'react-spinners';
 
 interface TypesLoadingData{

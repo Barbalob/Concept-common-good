@@ -16,7 +16,7 @@ const defaultStyles = {
 }
  
  const SelectedAuthor = () => {
-  const {isLoading, error, name, years, translationName, listTexts, biography} = useAppSelector(state => state.selectedAuthors)
+  const {isLoading, error, name, years, translationName, listTexts, biography, photoUrl} = useAppSelector(state => state.selectedAuthors)
   const dispatch= useAppDispatch()
   const id = useLocation().pathname.replace('/authors/', '')
 
@@ -53,7 +53,7 @@ const defaultStyles = {
                   <Typography sx={{...defaultStyles}} mt={1} variant='h5' component='p'>{biography}</Typography>
                 </Grid>
                 <Grid size={4}>
-                  <img src={srvPlaceholder} style={
+                  <img src={`http://localhost:3000${photoUrl}`} style={
                     {objectFit:'contain', 
                     width:'100%', 
                     height:'100%',

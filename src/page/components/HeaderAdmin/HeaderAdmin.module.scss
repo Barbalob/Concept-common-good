@@ -1,0 +1,21 @@
+.listLink{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.headerLink{
+    display: flex;  
+    justify-content: center !important;
+    max-width: 25%;
+    color:black;
+}
+
+.text{
+    font-size: 1rem !important; 
+}
+
+.active{
+    .text{
+        border-bottom: 1px solid #9A7E5F;
+    }
+}

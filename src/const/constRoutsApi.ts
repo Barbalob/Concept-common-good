@@ -10,3 +10,7 @@ export const TEXTS = `${BASE_URL}/texts`
 export const TEXTS_ID = `${BASE_URL}/texts/:id`
 export const TEXTS_WORD_ID = `${BASE_URL}/texts/word/:wordId`
 export const TEXTS_AUTOR_ID = `${BASE_URL}/texts/author/:autorId`
+
+// export const AUTHORIZATION = `${BASE_URL}/authorization`
+export const AUTHORIZATION = `${BASE_URL}`
+export const REFRESH = `${BASE_URL}/refresh`

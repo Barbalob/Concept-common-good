@@ -69,6 +69,7 @@ const slise = createSlice({
                 state.years = action.payload.data.years
                 state.biography = action.payload.data.biography
                 state.listTexts = action.payload.texts
+                state.photoUrl = action.payload.data.photoUrl
             })
             .addCase(fetchAuthor.rejected, (state, action)=>{
                 state.isLoading = false
