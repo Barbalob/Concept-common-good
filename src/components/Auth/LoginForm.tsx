@@ -17,8 +17,8 @@ const LoginForm = () => {
   const dispatch = useAppDispatch()
 
   const onSubmit:SubmitHandler<IForm> = (data) => {
-    dispatch(fetchAuthRegistration({email:data.email, password:data.password}))
-    // dispatch(fetchAuthLogin({email:data.email, password:data.password}))
+    // dispatch(fetchAuthRegistration({email:data.email, password:data.password}))
+    dispatch(fetchAuthLogin({email:data.email, password:data.password}))
     // console.log(data);
   }
 

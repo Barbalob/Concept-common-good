@@ -37,9 +37,9 @@ export const fetchAuthRegistration = createAsyncThunk<IUser, TypePayloadFetch, {
         }
     }
 )
-export const fetchAuthLogout = createAsyncThunk<void, TypePayloadFetch, {rejectValue:string}>(
+export const fetchAuthLogout = createAsyncThunk<void, void, {rejectValue:string}>(
     'auth/fetchAuthLogout',
-    async function ({}, { rejectWithValue }){
+    async function (_, { rejectWithValue }){
         try{
           await Auth.logout()
           localStorage.removeItem('token')
@@ -53,7 +53,7 @@ export const checkAuth = createAsyncThunk<IUser, void, {rejectValue:string}>(
     async function (_, { rejectWithValue }){
         try{
           const res = await axios.get<AuthResponse>(REFRESH, {withCredentials:true})
-          localStorage.removeItem('token')
+          localStorage.setItem('token', res.data.accessToken)
           return res.data.user
         } catch (e) {
             return rejectWithValue((e as Error).message)
@@ -104,9 +104,9 @@ const slise = createSlice({
             .addCase(checkAuth.pending, (state)=>{
               state.isLoading = true
             })
-            .addCase(checkAuth.fulfilled, (state)=>{
-              state.user = {}
-              state.isAuth = false
+            .addCase(checkAuth.fulfilled, (state, action)=>{
+              state.user = action.payload
+              state.isAuth = true
               state.isLoading = false
             })
             .addCase(checkAuth.rejected, (state)=>{

@@ -60,14 +60,16 @@ const CreateAuthors = () => {
         biography:data.biography,
         year:data.year,
       })
+      alert('Автор успешно создан')
     } else {
-      updateAuthor({
+      await updateAuthor({
         name:data.name,
         image:data.image[0],
         biography:data.biography,
         year:data.year,
         id
       })
+      alert('Автор успешно отредактирован')
       navigate('/admin/authors')
     }
   }
@@ -94,12 +96,12 @@ const CreateAuthors = () => {
               sx={{marginBottom:2}}
               label="Имя"
               type='text'
-              required
+              // required
               error={Boolean(errors.name?.message)}
               helperText={errors.name?.message}
               {...register(
                 'name', 
-                // {required:'Укажите Имя'}
+                {required:'Укажите Имя'}
                 )
               }
               fullWidth
@@ -109,39 +111,40 @@ const CreateAuthors = () => {
               label="Годы жизни" 
               type="text"
               fullWidth 
-              required
+              // required
               error={Boolean(errors.year?.message)}
               helperText={errors.year?.message}
               {...register(
                 'year',
-                // {required:'Укажите годы жизни'}
+                {required:'Укажите годы жизни'}
               )}
           />
           <TextField 
               sx={{marginBottom:2}}
               label="Биография" 
               type="text"
-              required
+              // required
               fullWidth 
               error={Boolean(errors.biography?.message)}
               helperText={errors.biography?.message}
               {...register('biography',
-                // {required:'Укажите биографию'}
+                {required:'Укажите биографию'}
               )}
           />
           <Button 
           sx={{marginTop:5}}
           // className={styles.btnReg} 
           type='submit' size="large" variant="contained" fullWidth>
-              Создать
+              {isCreate? 'Создать':'Редактировать'}
           </Button>
           {!isCreate && 
             <Button 
             sx={{marginTop:5}}
             // className={styles.btnReg} 
-            onClick={(e)=>{
+            onClick={async (e)=> {
               e.preventDefault()
-              deleteAuthor(id)
+              await deleteAuthor(id)
+              alert('Удален')
               navigate('/admin/authors')
             }}
             size="large" variant="contained">

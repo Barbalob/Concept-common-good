@@ -1,5 +1,5 @@
 import { AUTORS } from "../../const/constRoutsApi";
-// import $api from "../const";
+import $api from "../const";
 import axios from "axios";
 
 interface IParamsCreate {
@@ -17,7 +17,7 @@ interface IParamsUpdate {
 }
 
 
-const $api = axios.create({})
+// const $api = axios.create({})
 
 export const createAuthor = (params:IParamsCreate) => {
   var formData = new FormData();

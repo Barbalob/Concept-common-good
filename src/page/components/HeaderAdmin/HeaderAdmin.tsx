@@ -1,9 +1,11 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Container, List, ListItem, Typography } from '@mui/material';
+import { Button, Container, List, ListItem, Typography } from '@mui/material';
 import styles from './HeaderAdmin.module.scss'
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAppDispatch } from '../../../hook';
+import { fetchAuthLogout } from '../../../store/authSlice';
 
 
 const MyNavLink = React.forwardRef<any, any>((props, ref) => (
@@ -38,6 +40,7 @@ const listLink = [
     // },
 ]
 const HeaderAdmin = () => {
+    const dispatch = useAppDispatch()
     return (
         <AppBar position="static" sx={{boxShadow:0}}>
             <Container  fixed>
@@ -58,6 +61,7 @@ const HeaderAdmin = () => {
                         })}
                         
                     </List>
+                    <Button onClick={()=>{dispatch(fetchAuthLogout())}} sx={{border:'1px solid black', color: 'black'}}><Typography className={styles.text}>Выход</Typography></Button>
                 </Toolbar>
             </Container>
         </AppBar>

@@ -61,15 +61,15 @@ const router = createBrowserRouter([
   },
   {
     path:'/admin',
-    element: <MainAdmin />
+    element: <Auth><MainAdmin/></Auth>
   },
   {
     path:'/admin/authors',
-    element: <AllAuthors />
+    element: <Auth><AllAuthors /></Auth>
   },
   {
     path:'/admin/authors/:id',
-    element: <CreateAuthors />
+    element: <Auth><CreateAuthors /></Auth>
   },
   // {
   //   path:'*',

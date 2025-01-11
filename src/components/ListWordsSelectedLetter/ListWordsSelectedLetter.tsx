@@ -7,6 +7,7 @@ import { fetchDictionary } from "../../store/dictionarySlice";
 import { ClipLoader } from "react-spinners";
 import { NavLink } from "react-router-dom";
 import LoadingData from "../LoadingData/LoadingData";
+import { toCamelCase } from "../../const/const";
 
 const testArray = (list:TypesWords[]):{letter:string,listWords:TypesWords[]}[] => {
   const arrayLetter = list.reduce((accumulator:string[], word)=>{
@@ -70,7 +71,7 @@ const ListWordsSelectedLetter = () => {
                   {item.listWords.map((word: TypesWords) => {
                     return (
                       <ListItem key={word.id} component={MyNavLink} to={`words/${word.id}`} className={styles.itemListWords}>
-                        <Typography className={styles.wordRu}>{word.ru ? word.ru.toLowerCase().replace(word.ru[0], word.ru[0].toUpperCase()) : ''}</Typography>
+                        <Typography className={styles.wordRu}>{toCamelCase(word.ru)}</Typography>
                         <Typography className={styles.wordEn}>{word.en.toLowerCase()}</Typography>
                       </ListItem>
                     );
