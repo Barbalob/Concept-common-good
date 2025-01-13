@@ -2,7 +2,8 @@ import { Box, Button, TextField } from '@mui/material';
 import { FC } from 'react';
 
 interface TypesMainIntut {
-    onClick?: () => void,
+    onClickEdit?: () => void,
+    onClickCancel?: () => void,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     value: string,
     textButton?: string,
@@ -10,7 +11,7 @@ interface TypesMainIntut {
     placeholder?: string,
 }
 
-const MainInput:FC<TypesMainIntut> = ({onChange, onClick=()=>{}, textButton='Найти', placeholder="Поиск", value, sizeTextButton=null}) => {
+const InputEditChip:FC<TypesMainIntut> = ({onChange, onClickEdit=()=>{}, onClickCancel=()=>{}, textButton='Найти', placeholder="Поиск", value, sizeTextButton=null}) => {
     return (
         <Box sx={{display:'flex',boxShadow:'0px 4px 20px 0px #00000026'}}>
             <TextField 
@@ -26,15 +27,19 @@ const MainInput:FC<TypesMainIntut> = ({onChange, onClick=()=>{}, textButton='Н�
                 borderBottomRightRadius: 0,
             }
             }} />
-            <Button  onClick={onClick} variant="contained" sx={{
+            <Button  onClick={onClickEdit} variant="contained" sx={{
+            fontSize: sizeTextButton,
+            boxShadow: 0,
+            borderRadius: 0,
+            }}>Редактировать</Button>
+            <Button  onClick={onClickCancel} variant="outlined" sx={{
             fontSize: sizeTextButton,
             borderTopLeftRadius:0,
             borderBottomLeftRadius:0,
-            width:210,
             boxShadow: 0
-            }}>{textButton}</Button>
+            }}>Отменить</Button>
         </Box>
     );
 };
 
-export default MainInput;
+export default InputEditChip;

@@ -1,10 +1,9 @@
-import { Box, List, ListItem, Typography } from "@mui/material";
+import { List, ListItem, Typography } from "@mui/material";
 import styles from "./SelectedLetter.module.scss";
 import { TypesWords } from "../../const/types";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import React, { useEffect } from "react";
 import { fetchDictionary } from "../../store/dictionarySlice";
-import { ClipLoader } from "react-spinners";
 import { NavLink } from "react-router-dom";
 import LoadingData from "../LoadingData/LoadingData";
 import { toCamelCase } from "../../const/const";
@@ -36,7 +35,7 @@ const testArray = (list:TypesWords[]):{letter:string,listWords:TypesWords[]}[] =
 const MyNavLink = React.forwardRef<any, any>((props, ref) => (
   <NavLink
     ref={ref}
-    to={"/"+props.to}
+    to={props.to}
     className={({ isActive }) => `${props.className} ${isActive ? props.activeClassName : ''}`}
   >
     {props.children}
@@ -70,7 +69,7 @@ const ListWordsSelectedLetter = () => {
                 <List className={styles.listWords}>
                   {item.listWords.map((word: TypesWords) => {
                     return (
-                      <ListItem key={word.id} component={MyNavLink} to={`words/${word.id}`} className={styles.itemListWords}>
+                      <ListItem key={word.id} component={MyNavLink} to={`${word.id}`} className={styles.itemListWords}>
                         <Typography className={styles.wordRu}>{toCamelCase(word.ru)}</Typography>
                         <Typography className={styles.wordEn}>{word.en.toLowerCase()}</Typography>
                       </ListItem>

@@ -68,7 +68,7 @@ interface TypePartText {
 export interface TypesText {
     id:string,
     author:TypesAuthor | null,
-    word:TypesWords | null,
+    word:TypesWords,
     title:string,
     titleRU:string,
     description:string,

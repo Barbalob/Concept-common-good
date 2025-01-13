@@ -4,8 +4,8 @@ import { Button, Container, List, ListItem, Typography } from '@mui/material';
 import styles from './HeaderAdmin.module.scss'
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppDispatch } from '../../../hook';
-import { fetchAuthLogout } from '../../../store/authSlice';
+import { useAppDispatch } from '../../../../hook';
+import { fetchAuthLogout } from '../../../../store/authSlice';
 
 
 const MyNavLink = React.forwardRef<any, any>((props, ref) => (

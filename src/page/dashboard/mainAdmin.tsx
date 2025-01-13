@@ -2,7 +2,7 @@
 import { Typography } from "@mui/material"
 import MainContainer from "../../components/MainContainer/MainContainer"
 import MainTitle from "../../components/MainTitle/MainTitle"
-import HeaderAdmin from "../components/HeaderAdmin/HeaderAdmin"
+import HeaderAdmin from "./components/HeaderAdmin/HeaderAdmin"
 
 function MainAdmin() {
   return (

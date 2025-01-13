@@ -17,6 +17,8 @@ import Auth from './page/Auth.tsx'
 import MainAdmin from './page/dashboard/mainAdmin.tsx'
 import CreateAuthors from './page/dashboard/createAuthors/createAuthors.tsx'
 import AllAuthors from './page/dashboard/AllAuthors.tsx'
+import AllWords from './page/dashboard/AllWords.tsx'
+import CreateWords from './page/dashboard/createWords/createWords.tsx'
 
 const router = createBrowserRouter([
   {
@@ -70,6 +72,14 @@ const router = createBrowserRouter([
   {
     path:'/admin/authors/:id',
     element: <Auth><CreateAuthors /></Auth>
+  },
+  {
+    path:'/admin/words',
+    element: <Auth><AllWords /></Auth>
+  },
+  {
+    path:'/admin/words/:id',
+    element: <Auth><CreateWords/></Auth>
   },
   // {
   //   path:'*',

@@ -1,15 +1,15 @@
-import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin';
+import HeaderAdmin from '../components/HeaderAdmin/HeaderAdmin';
 import MainTitle from '../../../components/MainTitle/MainTitle';
 import MainContainer from '../../../components/MainContainer/MainContainer';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Box, Button, TextField } from '@mui/material';
-import SimpleMDE from 'react-simplemde-editor';
+import { Button, TextField } from '@mui/material';
+// import SimpleMDE from 'react-simplemde-editor';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createAuthor, deleteAuthor, updateAuthor } from '../../../api/services/Authors';
-import { useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { getAuthorById } from '../../../api';
-import { TypesAuthor } from '../../../const/types';
-import { red } from '@mui/material/colors';
+import InputHookForm from '../components/InputHookForm/InputHookForm';
+
 
 interface IForm {
   name:string,
@@ -19,9 +19,9 @@ interface IForm {
 }
 
 const defaultValues = {
-  name:' ',
-  year:' ',
-  biography:' '
+  name:'',
+  year:'',
+  biography:''
 }
 
 
@@ -31,7 +31,7 @@ const CreateAuthors = () => {
   const navigate = useNavigate();
   const [srcImage, setSrcImage] = useState<string>()
 
-  const {register, handleSubmit, formState: { errors }, setValue, watch} = useForm<IForm>({
+  const {register, control, handleSubmit, formState: { isValid },reset, watch} = useForm<IForm>({
       defaultValues:isCreate ? {}: defaultValues,
       mode:'onSubmit',
   })
@@ -41,10 +41,7 @@ const CreateAuthors = () => {
   useEffect(()=>{
     const fetchData = async(id:string) =>{
       const data = await getAuthorById(id)
-      // reset({name:data.name, biography:data.biography, year:data.years})
-      setValue("name", data.name)
-      setValue("biography", data.biography)
-      setValue("year", data.years)
+      reset({name:data.name, biography:data.biography, year:data.years})
       setSrcImage(data.photoUrl)
     }
     if (!isCreate){
@@ -74,6 +71,12 @@ const CreateAuthors = () => {
     }
   }
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === "Enter" && (event.target as HTMLElement).tagName === "INPUT") {
+      event.preventDefault();
+    }
+  };
+
 
   return (
     <>
@@ -82,7 +85,8 @@ const CreateAuthors = () => {
         <MainTitle>{isCreate ? 'Создание Автора': 'Редактирование автора'}</MainTitle>
         <form 
           onSubmit={handleSubmit(onSubmit)}
-          >
+          onKeyDown={handleKeyDown}
+        >
           <TextField 
               sx={{marginBottom:2}}
               type='file'
@@ -92,55 +96,32 @@ const CreateAuthors = () => {
               fullWidth
             />
             {!isCreate && srcImage && srcUpdateValue?.length === 0 &&  <img style={{maxWidth:300, maxHeight:300}} src={`http://localhost:3000${srcImage}`}/>}
-          <TextField 
-              sx={{marginBottom:2}}
-              label="Имя"
-              type='text'
-              // required
-              error={Boolean(errors.name?.message)}
-              helperText={errors.name?.message}
-              {...register(
-                'name', 
-                {required:'Укажите Имя'}
-                )
-              }
-              fullWidth
+          <InputHookForm
+             name="name"
+             control={control}
+             label='Имя'
+             rules={{ required: 'Укажите Имя' }}
           />
-          <TextField 
-              sx={{marginBottom:2}}
-              label="Годы жизни" 
-              type="text"
-              fullWidth 
-              // required
-              error={Boolean(errors.year?.message)}
-              helperText={errors.year?.message}
-              {...register(
-                'year',
-                {required:'Укажите годы жизни'}
-              )}
+          <InputHookForm
+             name="year"
+             control={control}
+             label='Годы жизни'
+             rules={{ required: 'Укажите годы жизни' }}
           />
-          <TextField 
-              sx={{marginBottom:2}}
-              label="Биография" 
-              type="text"
-              // required
-              fullWidth 
-              error={Boolean(errors.biography?.message)}
-              helperText={errors.biography?.message}
-              {...register('biography',
-                {required:'Укажите биографию'}
-              )}
+          <InputHookForm
+             name="biography"
+             control={control}
+             label='Биография'
+             rules={{ required: 'Укажите биографию' }}
           />
           <Button 
           sx={{marginTop:5}}
-          // className={styles.btnReg} 
-          type='submit' size="large" variant="contained" fullWidth>
+          type='submit' size="large" variant="contained" disabled={!isValid} fullWidth>
               {isCreate? 'Создать':'Редактировать'}
           </Button>
           {!isCreate && 
             <Button 
             sx={{marginTop:5}}
-            // className={styles.btnReg} 
             onClick={async (e)=> {
               e.preventDefault()
               await deleteAuthor(id)
