@@ -32,12 +32,22 @@ const MeaningsArray =  <T extends FieldValues>({ control, name, label  }: InputH
             }
           }
 
-          const handleDelete = (index:number) => {
-            onChange((prevState:string[]) => [
-              ...prevState.slice(0, index),
-              ...prevState.slice(index + 1)
-            ])
+          const onClickEdit = ()=>{
+            if( valueIndex !== null){
+              onChange([
+                ...value.slice(0, valueIndex),
+                valueInputEdit,
+                ...value.slice(valueIndex + 1)
+              ])
+              setValueIndex(null)
+            }
+          }
 
+          const handleDelete = (index:number) => {
+            onChange([
+              ...value.slice(0, index),
+              ...value.slice(index + 1)
+            ])
           }
           return (
             <>
@@ -49,17 +59,8 @@ const MeaningsArray =  <T extends FieldValues>({ control, name, label  }: InputH
                 placeholder={`Редактирование определения`}
                 onClickCancel={()=>{
                   setValueIndex(null)
-                  setValueInputEdit('')
                 }}
-                onClickEdit={()=>{
-                  onChange((prevState:string[]) => [
-                    ...prevState.slice(0, valueIndex),
-                    valueInputEdit,
-                    ...prevState.slice(valueIndex + 1)
-                  ])
-                  setValueInputEdit('')
-                  setValueIndex(null)
-                }}
+                onClickEdit={onClickEdit}
               /> :
               <MainInput
                 onChange={(e)=>{onChangeInput(e)}}
