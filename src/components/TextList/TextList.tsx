@@ -6,16 +6,17 @@ import Grid from '@mui/material/Grid2';
 import TextGrid from '../TextGrid/TextGrid';
 
 interface TypesTextList {
-    data:TypesText[]
+    data:TypesText[],
+    isAdmin?:boolean
 }
 
-const TextList:FC<TypesTextList> = ({data}) => {
+const TextList:FC<TypesTextList> = ({data,isAdmin=false}) => {
     return (
         <List>
             <TextGrid isHead={true}></TextGrid>
             {data.map(item=>{
                 return (
-                    <TextListItem key={item.id} textData={item}></TextListItem>
+                    <TextListItem key={item.id} textData={item} isAdmin={isAdmin}></TextListItem>
                 )
             })}
         </List>

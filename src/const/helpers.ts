@@ -9,6 +9,7 @@ export const transformReceivedWord= (word:TypesReceivedWords):TypesWords => {
     letter:word.letter,
     ru: word.wordRU,
     en: word.wordEng,
+    forms: word.forms
   }
 }
 export const transformReceivedAuthor= (author:TypesReceivedAuthors):TypesAuthor => {
@@ -31,7 +32,8 @@ export const transformReceivedAuthorsList = (list:TypesReceivedAuthors[]):TypesA
 
 export const transformReceivedText = (text:TypesReceivedText):TypesText=>{
   return {
-    ...text
+    ...text,
+    word: text.word.map(a => transformReceivedWord(a.word))
   }
 }
 

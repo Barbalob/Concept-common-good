@@ -1,4 +1,4 @@
-import { Chip, List } from "@mui/material";
+import { Box, Chip, List } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { Control, Controller, FieldValues, Path} from "react-hook-form";
 import MainInput from "../../../../components/MainInput/MainInput";
@@ -26,10 +26,10 @@ const MeaningsArray =  <T extends FieldValues>({ control, name, label  }: InputH
           }
 
           const onClick = ()=>{
-            if (valueInput !== '' && valueInput !== ' '){
+            if (valueInput !== '' && valueInput !== ' ' && !value.includes(valueInput)){
               onChange([...value, valueInput])
-              setValueInput('')
             }
+            setValueInput('')
           }
 
           const onClickEdit = ()=>{
@@ -51,6 +51,7 @@ const MeaningsArray =  <T extends FieldValues>({ control, name, label  }: InputH
           }
           return (
             <>
+              <Box sx={{display:'flex', flexDirection:'column'}}>
               {valueIndex !== null ?
               <InputEditChip
                 value={valueInputEdit}
@@ -84,6 +85,7 @@ const MeaningsArray =  <T extends FieldValues>({ control, name, label  }: InputH
                   )
                 })}
               </List >
+              </Box>
             </>
           )
       }}

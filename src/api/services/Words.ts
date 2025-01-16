@@ -5,7 +5,8 @@ interface IParams {
   wordRU:string,
   wordEng:string,
   meaningsEN:string[],
-  meaningsRU:string[]
+  meaningsRU:string[],
+  forms: string[]
 }
 
 interface IParamsUpdate extends  IParams{

@@ -2,7 +2,7 @@ import HeaderAdmin from '../components/HeaderAdmin/HeaderAdmin';
 import MainTitle from '../../../components/MainTitle/MainTitle';
 import MainContainer from '../../../components/MainContainer/MainContainer';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 // import SimpleMDE from 'react-simplemde-editor';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { KeyboardEvent, useEffect } from 'react';
@@ -19,6 +19,7 @@ interface IForm {
   letter:string;
   meaningsRu:Array<string>;
   meaningsEng:Array<string>;
+  forms:Array<string>;
 }
 
 const defaultValues = {
@@ -26,6 +27,7 @@ const defaultValues = {
   wordEng:'',
   meaningsRu:[],
   meaningsEng:[],
+  forms:[],
 }
 
 
@@ -59,7 +61,8 @@ const CreateWords = () => {
         wordRu: data.ru,
         wordEng: data.en,
         meaningsEng: data.meaningsEN,
-        meaningsRu: data.meaningsRU
+        meaningsRu: data.meaningsRU,
+        forms: data.forms
       })
     }
     if (!isCreate){
@@ -75,6 +78,7 @@ const CreateWords = () => {
         meaningsRU:data.meaningsRu,
         wordEng:data.wordEng.toLocaleLowerCase(),
         wordRU:data.wordRu.toLocaleLowerCase(),
+        forms: data.forms
       })
       alert('Слово успешно создано')
     } else {
@@ -84,6 +88,7 @@ const CreateWords = () => {
         meaningsRU:data.meaningsRu,
         wordEng:data.wordEng.toLocaleLowerCase(),
         wordRU:data.wordRu.toLocaleLowerCase(),
+        forms: data.forms
       })
       alert('Слово успешно отредактировано')
       navigate('/admin/words')
@@ -127,15 +132,29 @@ const CreateWords = () => {
               }
             }
           />
-          <MeaningsArray
-            control={control}
-            label='Определения на русском'
-            name="meaningsRu"
-          />
+          <Box sx={{display:'flex', gap:3}}>
+            <Box sx={{width:'50%'}}>
+
+              <MeaningsArray
+                control={control}
+                label='Определения на русском'
+                name="meaningsRu"
+              />
+            </Box>
+            <Box sx={{width:'50%'}}>
+
           <MeaningsArray
             control={control}
             label='Определения на английском'
             name="meaningsEng"
+          />
+            </Box>
+          </Box>
+          <Box mb={6}/>
+          <MeaningsArray
+            control={control}
+            label='Слово-формы'
+            name="forms"
           />
           <Button 
           sx={{marginTop:5}}

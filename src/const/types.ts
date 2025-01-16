@@ -6,6 +6,7 @@ export interface TypesReceivedWords {
     wordRU:string,
     meaningsEN:string[],
     meaningsRU:string[],
+    forms: string[]
 }
 
 export interface TypesReceivedAuthors {
@@ -26,13 +27,19 @@ export interface TypesWords {
     href:string,
     en:string,
     ru:string,
+    forms: string[]
 }
 
 // Тип для текста приходящего с бэка
+
+export interface TypesReceivedTextWords {
+    word: TypesReceivedWords
+}
+
 export interface TypesReceivedText {
     id:string,
     author:TypesAuthor,
-    word:TypesWords,
+    word:TypesReceivedTextWords[],
     title:string,
     titleRU:string,
     description:string,
@@ -68,7 +75,7 @@ interface TypePartText {
 export interface TypesText {
     id:string,
     author:TypesAuthor | null,
-    word:TypesWords,
+    word:TypesWords[],
     title:string,
     titleRU:string,
     description:string,

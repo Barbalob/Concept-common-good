@@ -8,27 +8,6 @@ import { useAppDispatch, useAppSelector } from '../hook';
 import { fetchTexts, setSearchWordTexts } from '../store/textsSlice';
 import LoadingData from '../components/LoadingData/LoadingData';
 
-const data = [
-    {
-    id:1,
-    author:"Рассуждение о чудесах",
-    textTitle:"Локк Дж",
-    year:1701
-},
-{
-    id:2,
-    author:"Левиафан",
-    textTitle:"Томас Гоббс",
-    year:1025
-},
-{
-    id:3,
-    author:"О чудесах",
-    textTitle:"Д. Юм",
-    year:1025
-},
-]
-
 const Texts = () => {
     const {listTexts, error, isLoading, searchWord} = useAppSelector(s => s.texts)
     const dispatch = useAppDispatch()
