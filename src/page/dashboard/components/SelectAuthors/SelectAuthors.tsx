@@ -1,6 +1,6 @@
 import { Autocomplete,  CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
-import { Control, Controller, ErrorOption, FieldValues, Path} from "react-hook-form";
+import { Control, Controller, FieldValues, Path} from "react-hook-form";
 import { getAuthors } from "../../../../api";
 import { TypesAuthor } from "../../../../const/types";
 
@@ -39,7 +39,6 @@ const SelectedAuthor =  <T extends FieldValues>({ control, name, label, rules }:
             (async () => {
               setLoading(true);
               const fetchData = await getAuthors({params:{}})
-              console.log(fetchData);
               setLoading(false);
               setOptions([...transform(fetchData)]);
             })();
@@ -51,37 +50,37 @@ const SelectedAuthor =  <T extends FieldValues>({ control, name, label, rules }:
           };
         
           return (
-            <Autocomplete
-              sx={{ width: 300,marginBottom:3 }}
-              value={value}
-              onChange={(e:any, newValue: any) => {
-                onChange(newValue);
-              }}
-              open={open}
-              onOpen={handleOpen}
-              onClose={handleClose}
-              isOptionEqualToValue={(option, value) => option.name === value.name}
-              getOptionLabel={(option) => option.name}
-              options={options}
-              loading={loading}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={label}
-                  slotProps={{
-                    input: {
-                      ...params.InputProps,
-                      endAdornment: (
-                        <>
-                          {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
-                    },
-                  }}
-                />
-              )}
-            />
+              <Autocomplete
+                sx={{ width: 300,marginBottom:3 }}
+                value={value}
+                onChange={(_:any, newValue: any) => {
+                  onChange(newValue);
+                }}
+                open={open}
+                onOpen={handleOpen}
+                onClose={handleClose}
+                isOptionEqualToValue={(option:IAuthor, value:IAuthor) => option.name === value.name}
+                getOptionLabel={(option:IAuthor) => option.name}
+                options={options}
+                loading={loading}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={label}
+                    slotProps={{
+                      input: {
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                            {params.InputProps.endAdornment}
+                          </>
+                        ),
+                      },
+                    }}
+                  />
+                )}
+              />
           );
       }}
       />

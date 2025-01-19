@@ -45,7 +45,7 @@ export interface TypesReceivedText {
     description:string,
     rubric?:string,
     pubYear?:string,
-    translator:TypeTranslator | null,
+    translators:TypeTranslator[] | null,
     originalLang?:string,
     pubPlace?:string,
     publisher?:string,
@@ -57,8 +57,8 @@ export interface TypesReceivedText {
 }
 
 // Тип для объекта текста
-interface TypeTranslator {
-    name: string
+export interface TypeTranslator {
+    author: TypesAuthor
 }
 
 interface TypePart{
@@ -68,7 +68,7 @@ interface TypePart{
     text:string
 }
 
-interface TypePartText {
+export interface TypePartText {
     translations: TypePart[]
 }
 
@@ -81,7 +81,7 @@ export interface TypesText {
     description:string,
     rubric?:string,
     pubYear?:string,
-    translator:TypeTranslator | null,
+    translators:TypeTranslator[] | null,
     originalLang?:string,
     pubPlace?:string,
     publisher?:string,

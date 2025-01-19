@@ -1,0 +1,12 @@
+.wrapper{
+  display: flex;
+  
+  width: 100%;
+  gap: 15px;
+  .item{
+    width: 50%;
+  }
+  textArea {
+    width: 100%;
+  }
+}

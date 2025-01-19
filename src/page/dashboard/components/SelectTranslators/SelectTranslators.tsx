@@ -1,12 +1,11 @@
 import { Autocomplete,  CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { Control, Controller, FieldValues, Path} from "react-hook-form";
-import {  getDictionary } from "../../../../api";
-import {  TypesWords } from "../../../../const/types";
+import { getAuthors } from "../../../../api";
+import { TypesAuthor } from "../../../../const/types";
 
-
-interface IWords{
-  ru:string;
+interface IAuthor{
+  name:string;
   id: string
 }
 
@@ -18,11 +17,11 @@ interface InputHookFormProps<T extends FieldValues> {
   errors:any
 }
 
-const transform = (data:TypesWords[]):IWords[] => {
-  return data.map(i => {return {id: i.id, ru:i.ru}})
+const transform = (data:TypesAuthor[]):IAuthor[] => {
+  return data.map(i => {return {id: i.id, name:i.name}})
 }
 
-const SelectedWords =  <T extends FieldValues>({ control, name, label, rules }: InputHookFormProps<T>) => {  
+const SelectTranslators =  <T extends FieldValues>({ control, name, label, rules }: InputHookFormProps<T>) => {  
     return (
       <Controller 
         control={control}
@@ -30,14 +29,14 @@ const SelectedWords =  <T extends FieldValues>({ control, name, label, rules }: 
         rules={rules}
         render={({ field: { onChange, value}}) => {
           const [open, setOpen] = useState(false);
-          const [options, setOptions] = useState<readonly IWords[]>([]);
+          const [options, setOptions] = useState<readonly IAuthor[]>([]);
           const [loading, setLoading] = useState(false);
         
           const handleOpen = () => {
             setOpen(true);
             (async () => {
               setLoading(true);
-              const fetchData = await getDictionary({params:{}})
+              const fetchData = await getAuthors({params:{}})
               setLoading(false);
               setOptions([...transform(fetchData)]);
             })();
@@ -59,8 +58,8 @@ const SelectedWords =  <T extends FieldValues>({ control, name, label, rules }: 
               open={open}
               onOpen={handleOpen}
               onClose={handleClose}
-              isOptionEqualToValue={(option:IWords, value:IWords) => option.ru === value.ru}
-              getOptionLabel={(option) => option.ru}
+              isOptionEqualToValue={(option:IAuthor, value:IAuthor) => option.name === value.name}
+              getOptionLabel={(option) => option.name}
               defaultValue={[]}
               options={options}
               loading={loading}
@@ -89,4 +88,4 @@ const SelectedWords =  <T extends FieldValues>({ control, name, label, rules }: 
     );
 };
 
-export default SelectedWords;
+export default SelectTranslators;

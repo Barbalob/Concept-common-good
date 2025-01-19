@@ -71,7 +71,6 @@ const CreateWords = () => {
   },[])
 
   const onSubmit:SubmitHandler<IForm> = async (data) => {
-    console.log(data);
     if (isCreate){
       await createWords({
         meaningsEN:data.meaningsEng,
