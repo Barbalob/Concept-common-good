@@ -2,19 +2,18 @@ import HeaderAdmin from '../components/HeaderAdmin/HeaderAdmin';
 import MainTitle from '../../../components/MainTitle/MainTitle';
 import MainContainer from '../../../components/MainContainer/MainContainer';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '@mui/material';
-// import SimpleMDE from 'react-simplemde-editor';
+import { Box, Button, FormControlLabel, Grow, Switch } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { KeyboardEvent, useEffect } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import {  getTextsById } from '../../../api';
-import { deleteWords } from '../../../api/services/Words';
 import SelectedAuthor from '../components/SelectAuthors/SelectAuthors';
 import SelectedWords from '../components/SelectedWords/SelectedWords';
 import { TypePartText, TypesWords, TypeTranslator } from '../../../const/types';
 import SelectTranslators from '../components/SelectTranslators/SelectTranslators';
 import TextAuthors from '../components/TextAuthors/TextAuthors';
 import InputHookForm from '../components/InputHookForm/InputHookForm';
-import { createText, updateText } from '../../../api/services/Texts';
+import { createText, deleteText, updateText } from '../../../api/services/Texts';
+import style from './createTexts.module.scss'
 
 interface IAuthor {
   id: string,
@@ -51,11 +50,12 @@ interface IForm {
   type:string,
 }
 
-const defaultValues:IForm = {
+const defaultValues = {
   author:{id:'', name:''},
   translators:[],
   words:[],
   parts: [],
+  // parts: [[{id:'', language:'',text:''}]],
   title: '',
   titleRU: '',
   description: '',
@@ -84,16 +84,6 @@ const transformPart = (data:TypePartText[] | null): IFragment[][] => {
   if (!data) {
     return []
   }
-  // console.log(data.map(parts => {
-  //   const part = parts.translations
-  //   return part.map(i=>{
-  //     return {
-  //       id: i.id,
-  //       language: i.language,
-  //       text: i.text,
-  //     }
-  //   })
-  // }));
   return data.map(parts => {
     const part = parts.translations
     return part.map(i=>{
@@ -119,11 +109,22 @@ const transformTranslation = (data:TypeTranslator[] | null):IAuthor[] => {
   })
 }
 
+const filterParts = (data: IFragment[][], authors: IAuthor[], author:IAuthor): IFragment[][] => {
+  authors.push(author)
+  return data.map(part=>
+    {return part.filter(fragment => !!authors.find(authors => authors.id === fragment.id))}
+  )
+}
+
 
 const CreateTexts = () => {
   const id = useLocation().pathname.replace('/admin/texts/', '')
   const isCreate = id === 'create'
   const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
 
   const {control, handleSubmit, formState: { isValid, errors }, reset, watch} = useForm<IForm>({
       defaultValues:defaultValues,
@@ -141,15 +142,20 @@ const CreateTexts = () => {
       reset({
         author: {id:data.author?.id, name: data.author?.name},
         words: transformWords(data.word),
-        // parts: transformPart(data.texts)
         translators:transformTranslation(data.translators),
-        parts: [[
-          {
-            id:"678d15e5e0152c5bf644ad90",
-            language:'ru',
-            text:'eqweqeqe',
-          }
-        ]]
+        parts: transformPart(data.texts),
+        title: data.title,
+        titleRU: data.titleRU,
+        description: data.description,
+        rubric:data.rubric,
+        pubYear:data.pubYear,
+        originalLang:data.originalLang,
+        pubPlace:data.pubPlace,
+        publisher:data.publisher,
+        catalogNum:data.catalogNum,
+        storage:data.storage,
+        size:data.size,
+        type:data.type,
       })
     }
     if (!isCreate){
@@ -158,13 +164,12 @@ const CreateTexts = () => {
   },[])
 
   const onSubmit:SubmitHandler<IForm> = async (data) => {
-    console.log(data);
     if (isCreate){
       await createText({
         authorId: data.author.id,
         translators: transformReturnId(data.translators),
         wordsId: transformReturnId(data.words),
-        parts: data.parts,
+        parts: filterParts(data.parts,data.translators, data.author),
         title: data.title,
         titleRU: data.titleRU,
         description: data.description,
@@ -180,15 +185,27 @@ const CreateTexts = () => {
       })
       alert('Слово успешно создано')
     } else {
-      // await updateText({
-      //   id,
-      //   meaningsEN:data.meaningsEng,
-      //   meaningsRU:data.meaningsRu,
-      //   wordEng:data.wordEng.toLocaleLowerCase(),
-      //   wordRU:data.wordRu.toLocaleLowerCase(),
-      // })
-      // alert('Слово успешно отредактировано')
-      // navigate('/admin/words')
+      await updateText({
+        id,
+        authorId: data.author.id,
+        translators: transformReturnId(data.translators),
+        wordsId: transformReturnId(data.words),
+        parts: filterParts(data.parts,data.translators, data.author),
+        title: data.title,
+        titleRU: data.titleRU,
+        description: data.description,
+        rubric: data.rubric,
+        pubYear: data.pubYear,
+        originalLang: data.originalLang,
+        pubPlace: data.pubPlace,
+        publisher: data.publisher,
+        catalogNum: data.catalogNum,
+        storage: data.storage,
+        size: data.size,
+        type: data.type,
+      })
+      alert('текст успешно отредактировано')
+      navigate('/admin/texts')
     }
   }
 
@@ -202,7 +219,7 @@ const CreateTexts = () => {
     <>
       <HeaderAdmin/>
       <MainContainer>
-        <MainTitle>{isCreate ? 'Создание Слова': 'Редактирование слова'}</MainTitle>
+        <MainTitle>{isCreate ? 'Создание Текста': 'Редактирование Текста'}</MainTitle>
         <form 
           onSubmit={handleSubmit(onSubmit)}
           onKeyDown={handleKeyDown}
@@ -235,11 +252,12 @@ const CreateTexts = () => {
               label='Переводчики'
               name="translators"
               errors={errors}
-              rules={
-                { 
-                  required: 'Укажите слово на русском',
-                }
-              }
+              watchAutors={watchAutors}
+              // rules={
+              //   { 
+              //     required: 'Укажите слово на русском',
+              //   }
+              // }
             />
 
             <TextAuthors 
@@ -273,107 +291,48 @@ const CreateTexts = () => {
                 required: 'Укажите Заголовок RU',
               }
             }
-          />
-          <InputHookForm
-             name="description"
-             control={control}
-             label='Описание'
-             rules={
-              { 
-                required: 'Укажите описание',
-              }
-            }
-          />
-          <InputHookForm
-             name="rubric"
-             control={control}
-             label='Рубрикатор'
-             rules={
-              { 
-                required: 'Укажите Рубрикатор',
-              }
-            }
-          />
-          <InputHookForm
-             name="pubYear"
-             control={control}
-             label='Год публикации'
-             rules={
-              { 
-                required: 'Укажите Год публикации',
-              }
-            }
-          />
-          <InputHookForm
-             name="originalLang"
-             control={control}
-             label='Язык оригинала'
-             rules={
-              { 
-                required: 'Укажите Язык оригинала',
-              }
-            }
-          />
-          <InputHookForm
-             name="pubPlace"
-             control={control}
-             label='Место публикации'
-             rules={
-              { 
-                required: 'Укажите Место публикации',
-              }
-            }
-          />
-          <InputHookForm
-             name="publisher"
-             control={control}
-             label='Типография/Издатель'
-             rules={
-              { 
-                required: 'Укажите Типография/Издатель',
-              }
-            }
-          />
-          <InputHookForm
-             name="catalogNum"
-             control={control}
-             label='Номер по сводному каталогу'
-             rules={
-              { 
-                required: 'Укажите Номер по сводному каталогу',
-              }
-            }
-          />
-          <InputHookForm
-             name="storage"
-             control={control}
-             label='Место хранения'
-             rules={
-              { 
-                required: 'Укажите Место хранения',
-              }
-            }
-          />
-          <InputHookForm
-             name="size"
-             control={control}
-             label='Объём'
-             rules={
-              { 
-                required: 'Укажите Объём',
-              }
-            }
-          />
-          <InputHookForm
-             name="type"
-             control={control}
-             label='Тип'
-             rules={
-              { 
-                required: 'Укажите Тип  ',
-              }
-            }
-          />
+          />          
+          <Box >
+            <FormControlLabel
+              control={<Switch checked={checked} onChange={handleChange} />}
+              label="Не обязательные параметры"
+            />
+            <Box sx={{ display: 'flex', flexDirection:'column' }}>
+              {/* <Grow className={checked ?'': style.hidden } in={checked}>
+                {icon}
+              </Grow> */}
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 100 } : {})}>
+                <Box><InputHookForm name="description" label='Описание' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 200 } : {})}>
+                <Box><InputHookForm name="rubric" label='Рубрикатор' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 300 } : {})}>
+                <Box><InputHookForm name="pubYear" label='Год публикации' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 400 } : {})}>
+                <Box><InputHookForm name="originalLang" label='Язык оригинала' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 500 } : {})}>
+                <Box><InputHookForm name="pubPlace" label='Место публикации' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 600 } : {})}>
+                <Box><InputHookForm name="publisher" label='Типография/Издатель' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 700 } : {})}>
+                <Box><InputHookForm name="size" label='Объем' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 800 } : {})}>
+                <Box><InputHookForm name="catalogNum" label='Номер по сводному каталогу' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 900 } : {})}>
+                <Box><InputHookForm name="storage" label='Место хранения' control={control}/> </Box>
+              </Grow>
+              <Grow className={checked ?'': style.hidden } in={checked} {...(checked ? { timeout: 1000 } : {})}>
+                <Box><InputHookForm name="type" label='Тип' control={control}/> </Box>
+              </Grow>
+            </Box>
+          </Box>
           
           <Button 
           sx={{marginTop:5}}
@@ -385,7 +344,7 @@ const CreateTexts = () => {
             sx={{marginTop:5}}
             onClick={async (e)=> {
               e.preventDefault()
-              await deleteWords(id)
+              await deleteText(id)
               alert('Удален')
               navigate('/admin/texts')
             }}

@@ -1,5 +1,5 @@
 import { Autocomplete,  CircularProgress, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Control, Controller, FieldValues, Path} from "react-hook-form";
 import { getAuthors } from "../../../../api";
 import { TypesAuthor } from "../../../../const/types";
@@ -14,14 +14,15 @@ interface InputHookFormProps<T extends FieldValues> {
   name: Path<T>; 
   rules?: any; 
   label?: string; 
-  errors:any
+  errors:any,
+  watchAutors: IAuthor | null;
 }
 
 const transform = (data:TypesAuthor[]):IAuthor[] => {
   return data.map(i => {return {id: i.id, name:i.name}})
 }
 
-const SelectTranslators =  <T extends FieldValues>({ control, name, label, rules }: InputHookFormProps<T>) => {  
+const SelectTranslators =  <T extends FieldValues>({ control, name, label, rules, watchAutors }: InputHookFormProps<T>) => {  
     return (
       <Controller 
         control={control}
@@ -31,6 +32,27 @@ const SelectTranslators =  <T extends FieldValues>({ control, name, label, rules
           const [open, setOpen] = useState(false);
           const [options, setOptions] = useState<readonly IAuthor[]>([]);
           const [loading, setLoading] = useState(false);
+
+          const handlerChangeTranslators = () => {
+            if (watchAutors){
+              setOptions(options => options.filter(author => author.id !== watchAutors.id));
+              if (value && value.length > 0){
+                if (value.find((author:IAuthor) => author.id === watchAutors.id)){
+                  if (value.length === 1) {
+                    onChange([]);
+                  } else {
+                    onChange([...value.filter((author:IAuthor) => author.id !== watchAutors.id)]);
+                  }
+                }
+              }
+              
+            }
+          }
+
+          useEffect(()=>{
+            console.log('change authors');
+            handlerChangeTranslators()
+          },[watchAutors])
         
           const handleOpen = () => {
             setOpen(true);
@@ -39,6 +61,9 @@ const SelectTranslators =  <T extends FieldValues>({ control, name, label, rules
               const fetchData = await getAuthors({params:{}})
               setLoading(false);
               setOptions([...transform(fetchData)]);
+              if (watchAutors){
+                setOptions(options => options.filter(author => author.id !== watchAutors.id));
+              }
             })();
           };
         

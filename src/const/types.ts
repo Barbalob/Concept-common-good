@@ -65,7 +65,8 @@ interface TypePart{
     id:string,
     language: string,
     parentPartId:string,
-    text:string
+    text:string,
+    translatorId:string
 }
 
 export interface TypePartText {

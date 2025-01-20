@@ -3,7 +3,6 @@ import { Box, Button, MenuItem, Select, TextareaAutosize, Typography  } from "@m
 import { Control, FieldValues, Path, useController} from "react-hook-form";
 import styles from './TextAuthors.module.scss'
 import { useEffect, useState } from "react";
-import { text } from "stream/consumers";
 
 interface IAuthor {
   id: string,
@@ -27,10 +26,10 @@ interface InputHookFormProps<T extends FieldValues> {
 }
 
 
-const TextAuthors =  <T extends FieldValues>({ control, name, rules, label, watchTranslators,watchAutors  }: InputHookFormProps<T>) => {
+const TextAuthors =  <T extends FieldValues>({ control, name, rules, watchTranslators,watchAutors  }: InputHookFormProps<T>) => {
   const {
     field,
-    fieldState: { error },
+    // fieldState: { error },
     // fieldState: { invalid, isTouched, isDirty },
     // formState: { touchedFields, dirtyFields }
   } = useController({
@@ -41,14 +40,6 @@ const TextAuthors =  <T extends FieldValues>({ control, name, rules, label, watc
   });
 
   const {value, onChange} = field
-  const [valueText, onChangeText] = useState<IFragment[][]>([])
-
-  // useEffect(()=>{
-  //   onChangeText(value)
-  // },[])
-  useEffect(()=>{
-    onChange([...valueText])
-  },[valueText])
 
   useEffect(()=>{
     if (watchTranslators && watchTranslators?.length > 0){
@@ -73,8 +64,8 @@ const TextAuthors =  <T extends FieldValues>({ control, name, rules, label, watc
       newArray.push(watchAutors)
     }
     if (newArray && newArray?.length > 0){
-      onChangeText(value => {
-        value = [...value.map((part, index) => {
+      onChange(
+        [...[...value.map((part:any) => {
           const newPart = [...part]
           newArray.map(authors => {
             const isFind = !!newPart.find(fragment => fragment.id === authors.id)
@@ -87,10 +78,8 @@ const TextAuthors =  <T extends FieldValues>({ control, name, rules, label, watc
             }
           })
           return newPart
-        })]
-
-        return [...value]
-      })
+        })]]
+      )
     }
   },[watchTranslators, watchAutors])
 
@@ -112,101 +101,97 @@ const TextAuthors =  <T extends FieldValues>({ control, name, rules, label, watc
       })
     })
     if (part.length > 0){
-    onChangeText(value => {
-      value.push(part)
-      return [...value];
-    })}
+    onChange([...value, part])}
   }
 
   const handlerDelete = () => {
-    onChangeText((value => {
-      value.pop()
-      return [...value];
-    }))
+    onChange([...value.slice(0,-1)])
   }
 
   const handlerChangeText = (i:number, id:string, text:string) => {
-    onChangeText(valueText => {
-      const part = valueText[i]
-      if (part) {
-        const item = part.find(fragment => fragment.id === id)
-        if (item){
-          item.text = text
-          return [...valueText]
-        }else{
-          console.log("Error Item!", valueText);     
-        }
-      } else {
-        console.log("Error Part!", valueText);     
+    const part = value[i]
+    if (part) {
+      const item = part.find((fragment:any) => fragment.id === id)
+      if (item){
+        item.text = text
+        return [...value]
+      }else{
+        console.log("Error Item!", value);     
       }
-      return [...valueText] 
-    })
+    } else {
+      console.log("Error Part!", value);     
+    }
+    return [...value] 
   }
-  
+  console.log(watchAutors);
   const [valueSelect, setValueSelect] = useState('')
   
-  // const {onChange, value} = field
   return (
-    <Box sx={{display:'flex', flexDirection:'column', gap:2, alignItems:'center', justifyContent:'center',marginBottom:3}}>
-      <Box sx={{display:'flex', flexDirection:'column', gap:2, alignItems:'center', justifyContent:'center', width:'100%'}}>
-          <Box className={styles.wrapper}>
-            <Typography className={styles.item}>Оригинальный текст</Typography>
-            <Typography className={styles.item}>Перевод</Typography>
-          </Box>
-          <Box className={styles.wrapper}>
-            <Typography className={styles.item}>Автор: {watchAutors ? watchAutors.name : ''}</Typography>
-            {
-            watchTranslators 
-            && watchTranslators?.length > 0 
-            && !(watchTranslators.length === 1 && watchTranslators[0].id === watchAutors?.id)
-            ? 
-              <Select
-                value={valueSelect}
-                defaultValue={watchTranslators[0].id}
-                onChange={(e)=>setValueSelect(e.target.value)}
-              >
-                {watchTranslators?.map(translator => {    
-                return <MenuItem key={translator.id} value={translator.id}>{translator.name}</MenuItem>
-                })}
-              </Select>
-            :
-              <Typography className={styles.item}>Не выбрано ни одного переводчика</Typography>
-            }
-          </Box>
-          {valueText && valueText?.map((part:IFragment[], index:number) => {
-            const authorText = part?.find(fragment => fragment.id === watchAutors?.id)
-            const translatorText = part?.find(fragment =>  fragment.id === valueSelect)
-            return(
-              <Box key={index} className={styles.wrapper}>
-                {authorText && watchAutors?.id ?
-                <TextareaAutosize 
-                  value={authorText.text} 
-                  onChange={(e)=>handlerChangeText(index, watchAutors?.id, e.target.value)} 
-                  className={styles.item} 
-                  minRows={3}
-                />
-                :
-                <Box className={styles.item}/>
-                }
-                {translatorText && 
+    <>
+      {watchAutors?.id ? <Box sx={{display:'flex', flexDirection:'column', gap:2, alignItems:'center', justifyContent:'center',marginBottom:3}}>
+        <Box sx={{display:'flex', flexDirection:'column', gap:2, alignItems:'center', justifyContent:'center', width:'100%'}}>
+            <Box className={styles.wrapper}>
+              <Typography className={styles.item}>Оригинальный текст</Typography>
+              <Typography className={styles.item}>Перевод</Typography>
+            </Box>
+            <Box className={styles.wrapper}>
+              <Typography className={styles.item}>Автор: {watchAutors ? watchAutors.name : ''}</Typography>
+              {
+              watchTranslators 
+              && watchTranslators?.length > 0 
+              && !(watchTranslators.length === 1 && watchTranslators[0].id === watchAutors?.id)
+              ? 
+                <Select
+                  value={valueSelect}
+                  defaultValue={watchTranslators[0].id}
+                  onChange={(e)=>setValueSelect(e.target.value)}
+                >
+                  {watchTranslators?.map(translator => {    
+                  return <MenuItem key={translator.id} value={translator.id}>{translator.name}</MenuItem>
+                  })}
+                </Select>
+              :
+                <Typography className={styles.item}>Не выбрано ни одного переводчика</Typography>
+              }
+            </Box>
+            {value && value?.map((part:IFragment[], index:number) => {
+              const authorText = part?.find(fragment => fragment.id === watchAutors?.id)
+              const translatorText = part?.find(fragment =>  fragment.id === valueSelect)
+              return(
+                <Box key={index} className={styles.wrapper}>
+                  {authorText && watchAutors?.id ?
                   <TextareaAutosize 
-                    value={translatorText.text} 
+                    value={authorText.text} 
+                    onChange={(e)=>onChange(handlerChangeText(index, watchAutors?.id, e.target.value))} 
                     className={styles.item} 
-                    onChange={(e)=>handlerChangeText(index, valueSelect, e.target.value)}
                     minRows={3}
                   />
-                }
-              </Box>
-            )
-          })}
+                  :
+                  <Box className={styles.item}/>
+                  }
+                  {translatorText && 
+                    <TextareaAutosize 
+                      value={translatorText.text} 
+                      className={styles.item} 
+                      onChange={(e)=>onChange(handlerChangeText(index, valueSelect, e.target.value))}
+                      minRows={3}
+                    />
+                  }
+                </Box>
+              )
+            })}
+        </Box>
+        <Box sx={{display:'flex', gap:5}}>
+          <Button variant="contained"  onClick={handlerPush}>Добавить</Button>
+          {value && value.length > 0 &&
+          <Button variant="outlined"  onClick={handlerDelete}>Удалить</Button>
+          }
+        </Box>
       </Box>
-      <Box sx={{display:'flex', gap:5}}>
-        <Button variant="contained"  onClick={handlerPush}>Добавить</Button>
-        {valueText && valueText.length > 0 &&
-        <Button variant="outlined"  onClick={handlerDelete}>Удалить</Button>
-        }
-      </Box>
-    </Box>
+      :
+      <Typography sx={{marginBottom:3,textAlign:'center'}}>Выберите автора для создания текста</Typography>
+      }
+    </>
   );
 }
 
