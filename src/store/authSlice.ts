@@ -82,7 +82,7 @@ const slise = createSlice({
         builder
             .addCase(fetchAuthLogin.fulfilled, (state, action)=>{
               state.user = action.payload
-              state.isAuth = action.payload.adminFlag
+              state.isAuth = true
             })
             .addCase(fetchAuthLogin.rejected, (state)=>{
               state.isAuth = false
@@ -106,7 +106,7 @@ const slise = createSlice({
             })
             .addCase(checkAuth.fulfilled, (state, action)=>{
               state.user = action.payload
-              state.isAuth = action.payload.adminFlag
+              state.isAuth = true
               state.isLoading = false
             })
             .addCase(checkAuth.rejected, (state)=>{
