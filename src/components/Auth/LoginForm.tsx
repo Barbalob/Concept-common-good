@@ -10,7 +10,7 @@ interface IForm {
 }
 
 const LoginForm = () => {
-  const {register, handleSubmit} = useForm<IForm>({
+  const {register, handleSubmit, getValues,formState:{isValid}} = useForm<IForm>({
     defaultValues:{}
   })
 
@@ -56,9 +56,22 @@ const LoginForm = () => {
           />
           <Button 
             sx={{marginTop:5}}
+            disabled={!isValid}
             // className={styles.btnReg} 
             type='submit' size="large" variant="contained" fullWidth>
               Войти
+          </Button>
+          <Button 
+            sx={{marginTop:5}}
+            // className={styles.btnReg} 
+            size="large" variant="outlined" fullWidth
+            disabled={!isValid}
+            onClick={(e)=>{
+              e.preventDefault();
+              dispatch(fetchAuthRegistration({email:getValues('email'), password:getValues('password')}))
+            }}
+            >
+              Регистрация
           </Button>
         </form>
       </Box>      
