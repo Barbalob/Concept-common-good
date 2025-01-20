@@ -50,7 +50,6 @@ const SelectTranslators =  <T extends FieldValues>({ control, name, label, rules
           }
 
           useEffect(()=>{
-            console.log('change authors');
             handlerChangeTranslators()
           },[watchAutors])
         

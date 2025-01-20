@@ -77,7 +77,7 @@ const CreateWords = () => {
         meaningsRU:data.meaningsRu,
         wordEng:data.wordEng.toLocaleLowerCase(),
         wordRU:data.wordRu.toLocaleLowerCase(),
-        forms: data.forms
+        forms: data.forms.map(word => word.toLowerCase())
       })
       alert('Слово успешно создано')
     } else {

@@ -23,10 +23,11 @@ interface InputHookFormProps<T extends FieldValues> {
   label?: string; // Опциональный текст метки
   watchTranslators: IAuthor[] | undefined;
   watchAutors: IAuthor | null;
+  error:any
 }
 
 
-const TextAuthors =  <T extends FieldValues>({ control, name, rules, watchTranslators,watchAutors  }: InputHookFormProps<T>) => {
+const TextAuthors =  <T extends FieldValues>({ control, name, rules, watchTranslators,watchAutors, error }: InputHookFormProps<T>) => {
   const {
     field,
     // fieldState: { error },
@@ -123,7 +124,6 @@ const TextAuthors =  <T extends FieldValues>({ control, name, rules, watchTransl
     }
     return [...value] 
   }
-  console.log(watchAutors);
   const [valueSelect, setValueSelect] = useState('')
   
   return (

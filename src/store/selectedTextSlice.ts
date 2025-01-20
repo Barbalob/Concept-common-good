@@ -27,13 +27,13 @@ const initialState: TypeState = {
   error: null,
   id:'',
   author:null,
-  word:null,
-  translator: null,
+  word:[],
+  translators: null,
   title:'',
   titleRU:'',
   description:'',
   type:'',
-  texts:'',
+  texts:[],
 }
 
 const authorSlise = createSlice({
@@ -56,7 +56,7 @@ const authorSlise = createSlice({
               state.description = action.payload.description
               state.rubric = action.payload.rubric
               state.pubYear = action.payload.pubYear
-              state.translator = action.payload.translator
+              state.translators = action.payload.translators
               state.originalLang = action.payload.originalLang
               state.pubPlace = action.payload.pubPlace
               state.publisher = action.payload.publisher

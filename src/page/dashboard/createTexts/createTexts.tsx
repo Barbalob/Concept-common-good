@@ -50,7 +50,7 @@ interface IForm {
   type:string,
 }
 
-const defaultValues = {
+const defaultValues:IForm = {
   author:{id:'', name:''},
   translators:[],
   words:[],
@@ -126,7 +126,7 @@ const CreateTexts = () => {
     setChecked((prev) => !prev);
   };
 
-  const {control, handleSubmit, formState: { isValid, errors }, reset, watch} = useForm<IForm>({
+  const {control, handleSubmit, formState, formState: { isValid, errors }, reset, watch} = useForm<IForm>({
       defaultValues:defaultValues,
       mode:'onBlur',
   })
@@ -266,11 +266,12 @@ const CreateTexts = () => {
               watchAutors={watchAutors}
               control={control}
               label='Слово на русском'
-            //   rules={
-            //   { 
-            //     required: 'Укажите слово на русском',
-            //   }
-            // }
+              error={errors}
+              rules={
+              { 
+                required: 'Укажите слово на русском',
+              }
+            }
             />
           <InputHookForm
              name="title"

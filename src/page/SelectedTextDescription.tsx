@@ -4,10 +4,7 @@ import MainContainer from '../components/MainContainer/MainContainer';
 import { Box, ListItem, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hook';
 import { NavLink, useLocation } from 'react-router-dom';
-import { fetchAuthor } from '../store/selectedAuthorSlice';
 import Grid from '@mui/material/Grid2';
-import srvPlaceholder from '../assets/photo/photo-placeholder.png'
-import TextList from '../components/TextList/TextList';
 import LoadingData from '../components/LoadingData/LoadingData';
 import { fetchTextsById } from '../store/selectedTextSlice';
 
@@ -28,12 +25,9 @@ const defaultStyles = {
  
  const SelectedTextDescription = () => {
   const {
-    isLoading, 
     error, 
     author, 
-    pubYear, 
-    description,
-    texts,
+    pubYear,
     title,
     titleRU,
     type,
@@ -44,51 +38,10 @@ const defaultStyles = {
     rubric,
     size,
     storage,
-    translator
+    translators
 } = useAppSelector(state => state.selectedText)
   const dispatch = useAppDispatch()
   const idPath = useLocation().pathname.replace('/textDescription/', '')
-
-  // const {
-  //   id,
-  //   author,
-  //   word,
-  //   title,
-  //   titleRU,
-  //   description,
-  //   rubric,
-  //   pubYear,
-  //   translator,
-  //   originalLang,
-  //   pubPlace,
-  //   publisher,
-  //   catalogNum,
-  //   storage,
-  //   size,
-  //   type,
-  //   error,
-  //   isLoading,
-  //   texts} = {
-  //   error:null,
-  //   isLoading:false,
-  //   id:'wqqqqq',
-  //   author:{name:'testtss'},
-  //   word:[],
-  //   title:'DISCOURSE MIRACLES',
-  //   titleRU:'Рассуждение о чудесах',
-  //   description:'lorem',
-  //   rubric:'Филос. Наследие. Т.103',
-  //   pubYear:'1232',
-  //   translator:{name:'Джон Локк'},
-  //   originalLang:"ru",
-  //   pubPlace:'Moscow',
-  //   publisher:'Джон Локкерк',
-  //   catalogNum:'30',
-  //   storage:'2913',
-  //   size:'[8], 1 с.; 8°',
-  //   type:'Печатный',
-  //   texts:'Печатный',
-  // }
 
   const descriptionList = [
     {
@@ -105,7 +58,7 @@ const defaultStyles = {
     },
     {
       title:'Переводчик',
-      value:translator?.name
+      value: translators ? translators.map(translator => translator.author.name).join(', ') : ''
     },
     {
       title:'Место публикации',
@@ -161,7 +114,9 @@ const defaultStyles = {
             </Box>
             <Box mb={6} sx={{marginLeft:3}}>
               <Typography variant='h5' component='p' color='#8C8C8C' mb={2} >Переводчик</Typography>
-              <Typography variant='h3' component='p'>{translator?.name}</Typography>
+              <Typography variant='h3' component='p'>
+                {translators && translators.map(translator => translator.author.name).join(', ')}
+              </Typography>
             </Box>
             <Box mb={6} sx={{marginLeft:3}}>
               <Typography variant='h5' component='p' color='#8C8C8C' mb={2} >Рубрикатор</Typography>
