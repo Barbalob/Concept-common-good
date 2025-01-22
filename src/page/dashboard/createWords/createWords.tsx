@@ -80,6 +80,7 @@ const CreateWords = () => {
         forms: data.forms.map(word => word.toLowerCase())
       })
       alert('Слово успешно создано')
+      reset()
     } else {
       await updateWords({
         id,

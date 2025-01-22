@@ -184,6 +184,7 @@ const CreateTexts = () => {
         type: data.type,
       })
       alert('Слово успешно создано')
+      reset()
     } else {
       await updateText({
         id,

@@ -58,6 +58,7 @@ const CreateAuthors = () => {
         year:data.year,
       })
       alert('Автор успешно создан')
+      reset()
     } else {
       await updateAuthor({
         name:data.name,
