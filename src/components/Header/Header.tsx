@@ -30,7 +30,7 @@ const listLink = [
     {
         name:'Словарь понятий',
         // href:"dictionary"
-        href:""
+        href:"words"
     },
     {
         name:'О проекте',
