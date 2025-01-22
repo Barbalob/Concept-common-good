@@ -37,8 +37,8 @@ const AuthorList= () => {
     const getGap = () => {
         if (isXs) return 10;
         if (isSm) return 20;
-        if (isMd) return 40;
-        return 80;
+        if (isMd) return 30;
+        return 30;
     };
 
 
@@ -56,6 +56,7 @@ const AuthorList= () => {
                     to={author.id}
                     activeClassName={styles.active}
                     className={styles.headerLink}
+                    // sx={{width:'300px'}}
                     key={author.id}
                     >
                         <ImageListItem className={styles.item}>

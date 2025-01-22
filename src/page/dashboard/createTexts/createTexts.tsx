@@ -183,7 +183,7 @@ const CreateTexts = () => {
         size: data.size,
         type: data.type,
       })
-      alert('Слово успешно создано')
+      alert('Текст успешно создан')
       reset()
     } else {
       await updateText({
@@ -205,7 +205,7 @@ const CreateTexts = () => {
         size: data.size,
         type: data.type,
       })
-      alert('текст успешно отредактировано')
+      alert('Текст успешно отредактирован')
       navigate('/admin/texts')
     }
   }
