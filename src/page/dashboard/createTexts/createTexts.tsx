@@ -126,7 +126,7 @@ const CreateTexts = () => {
     setChecked((prev) => !prev);
   };
 
-  const {control, handleSubmit, formState, formState: { isValid, errors }, reset, watch} = useForm<IForm>({
+  const {control, handleSubmit, formState: { isValid, errors }, reset, watch} = useForm<IForm>({
       defaultValues:defaultValues,
       mode:'onBlur',
   })

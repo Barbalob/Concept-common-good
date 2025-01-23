@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TypesAuthor, TypesText, TypesWords } from "../const/types";
+import { TypesAuthor, TypesText } from "../const/types";
 import { getAuthorById, getTexts } from "../api";
 
 interface TypePayloadFetch{

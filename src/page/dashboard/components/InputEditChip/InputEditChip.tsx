@@ -6,12 +6,12 @@ interface TypesMainIntut {
     onClickCancel?: () => void,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     value: string,
-    textButton?: string,
+    // textButton?: string,
     sizeTextButton?: string,
     placeholder?: string,
 }
 
-const InputEditChip:FC<TypesMainIntut> = ({onChange, onClickEdit=()=>{}, onClickCancel=()=>{}, textButton='Найти', placeholder="Поиск", value, sizeTextButton=null}) => {
+const InputEditChip:FC<TypesMainIntut> = ({onChange, onClickEdit=()=>{}, onClickCancel=()=>{}, placeholder="Поиск", value, sizeTextButton=null}) => {
     return (
         <Box sx={{display:'flex',boxShadow:'0px 4px 20px 0px #00000026'}}>
             <TextField 
