@@ -27,7 +27,7 @@ interface InputHookFormProps<T extends FieldValues> {
 }
 
 
-const TextAuthors =  <T extends FieldValues>({ control, name, rules, watchTranslators,watchAutors, error }: InputHookFormProps<T>) => {
+const TextAuthors =  <T extends FieldValues>({ control, name, rules, watchTranslators,watchAutors }: InputHookFormProps<T>) => {
   const {
     field,
     // fieldState: { error },

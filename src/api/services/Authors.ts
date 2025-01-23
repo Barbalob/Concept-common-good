@@ -1,6 +1,5 @@
 import { AUTORS } from "../../const/constRoutsApi";
 import $api from "../const";
-import axios from "axios";
 
 interface IParamsCreate {
   name:string,

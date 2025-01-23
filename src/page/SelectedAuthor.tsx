@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from '../hook';
 import { useLocation } from 'react-router-dom';
 import { fetchAuthor } from '../store/selectedAuthorSlice';
 import Grid from '@mui/material/Grid2';
-import srvPlaceholder from '../assets/photo/photo-placeholder.png'
 import TextList from '../components/TextList/TextList';
 import LoadingData from '../components/LoadingData/LoadingData';
 

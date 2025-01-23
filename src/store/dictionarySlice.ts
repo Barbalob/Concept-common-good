@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TypesWords } from "../const/types";
-import { getDictionary, getDictionaryById } from "../api";
+import { getDictionary } from "../api";
 
 interface DictionaryState {
     letter: string,

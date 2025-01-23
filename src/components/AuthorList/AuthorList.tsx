@@ -1,9 +1,8 @@
 import { ImageList, ImageListItem, ImageListItemBar, ListItem } from '@mui/material';
-import srvPlaceholder from '../../assets/photo/photo-placeholder.png'
 import styles from './AuthorList.module.scss'
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { fetchAuthors } from '../../store/authorsSlice';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import LoadingData from '../LoadingData/LoadingData';

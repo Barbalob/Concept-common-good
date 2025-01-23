@@ -1,8 +1,7 @@
 import { List } from '@mui/material';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { TypesText } from '../../const/types';
 import TextListItem from '../TextListItem/TextListItem';
-import Grid from '@mui/material/Grid2';
 import TextGrid from '../TextGrid/TextGrid';
 
 interface TypesTextList {

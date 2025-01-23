@@ -1,5 +1,4 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useAppDispatch } from '../../hook';
 import { fetchAuthLogin, fetchAuthRegistration } from '../../store/authSlice';

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TypesAuthor } from "../const/types";
-import { getAuthors, getDictionaryById, getTexts } from "../api";
+import { getAuthors } from "../api";
 
 interface TypePayloadFetchWord {
   word?: string,
